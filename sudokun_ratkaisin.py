@@ -1,4 +1,5 @@
-import time, itertools
+import time
+import itertools
 
 def ratkaise_sudoku(sisaan_sudoku: list) -> list:
     global yrityksia
@@ -40,7 +41,7 @@ def ratkaise_sudoku(sisaan_sudoku: list) -> list:
                 if puhelias:
                     viive = input("Kuinka pitkä viive millisekunteina tulostusten välillä, max 250? ")
                     try:
-                        viive = int(viive)
+                        viive = int(viive.strip())
                         viive = 250 if viive > 250 else viive
                     except (TypeError, ValueError) as _:
                         pass
@@ -54,6 +55,8 @@ def ratkaise_sudoku(sisaan_sudoku: list) -> list:
 
         if onko_ratkaistu(sudoku):
             print("\n\n\n\n\n\nSudoku ratkaistu!\n")
+            loppuaika = time.time()
+            kesto = loppuaika - lahtoaika
             print(f"Aikaa kului {kesto:.3f} sekuntia")
             if yrityksia != 0:
                 print(f"Raa'alla voimalla sijoitettiin {yrityksia} numeroa tauluun")
@@ -137,6 +140,8 @@ def ota_sudoku():
                 return palautettava
             
             elif komento[0].lower() == "i":
+                if len(komento) < 2:
+                    raise ValueError
                 rivinro = int(komento[1]) - 1
                 if rivinro > 8 or rivinro < 0:
                     raise ValueError
